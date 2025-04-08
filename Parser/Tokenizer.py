@@ -1,31 +1,20 @@
+from Parser.TokenType import TokenType
+
 class Tokenizer:
     def __init__(self):
-        self.token_specification = [
-            'N',
-            'E',
-            'S',
-            'W',
-            'U',
-            'D',
-            'GO',
-            'LOOK',
-            'TAKE',
-            'DROP',
-            'USE',
-            'TALK',
-            'GIVE',
-            'WORD'
-        ]
-        
+        pass
     def tokenize(self, input_string):
         tokens = []
 
         words = input_string.split()
         for word in words:
+            word_lower = word.lower()
             word_upper = word.upper()
-            if word_upper in self.token_specification:
-                tokens.append((word_upper, word.lower()))
+            # Check if the word matches any value in the TokenType enum
+            matching_token = next((token for token in TokenType if token.value == word_upper), None)
+            if matching_token:
+                tokens.append((matching_token, word_lower))
             else:
-                tokens.append(('WORD', word.lower()))
+                tokens.append((TokenType.WORD, word_lower))
 
         return tokens
